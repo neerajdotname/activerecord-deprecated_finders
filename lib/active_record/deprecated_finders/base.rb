@@ -23,9 +23,9 @@ module ActiveRecord
         @scope = scope
       end
 
-      def call(*args)
+      def call(t, *args)
         if @scope.respond_to?(:call)
-          result = @scope.call(*args)
+          result = t.instance_exec(*args, &@scope)
 
           if result.is_a?(Hash)
             msg = "Returning a hash from a #scope or #default_scope block is deprecated. Please " \
